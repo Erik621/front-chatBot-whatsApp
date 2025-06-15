@@ -1,0 +1,43 @@
+/* .scroll-vertical {
+    height: 200px;
+    overflow-y: scroll;
+    margin: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+  }
+  
+  .scroll-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+   */
+   .scroll-vertical {
+    height: 200px;
+    overflow-y: auto;
+    margin: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #fff;
+  }
+  
+  .scroll-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  .scroll-vertical {
+    height: 200px;
+    overflow-y: auto;
+    margin: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #fff;
+  }
+  
+  .scroll-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+    

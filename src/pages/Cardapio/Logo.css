@@ -1,0 +1,18 @@
+.top_bar {
+  display: flex;
+  justify-content: space-between; /* empurra os itens para as extremidades */
+  align-items: center;            /* centraliza verticalmente */
+  padding: 0 16px;
+  height: 80px;                   /* altura da barra */
+  background-color: #ffffff;      /* ou a cor da sua barra */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.logo-instance {
+  height: 48px;                   /* ajuste conforme necessário */
+  width: auto;
+}
