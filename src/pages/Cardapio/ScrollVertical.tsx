@@ -1,22 +1,57 @@
-/* import React from "react";
+import React from "react";
 import "./ScrollVertical.css";
+//import "./style.css"; // Importa o CSS do .frame
+import hamburge from "../../assets/hamburge.svg";
 
-export const ScrollVertical = () => {
+interface Item {
+  nome: string;
+  descricao: string;
+  preco: string;
+  categoria: string; // ADICIONADO: necessário para o filtro
+}
+
+interface ScrollVerticalProps {
+  itens: Item[];
+  categoriaSelecionada: string;
+}
+
+export const ScrollVertical: React.FC<ScrollVerticalProps> = ({ itens, categoriaSelecionada }) => {
+  // Filtra os itens com base na categoria selecionada
+  const itensFiltrados = itens.filter(item => item.categoria === categoriaSelecionada);
+
   return (
     <div className="scroll-vertical">
-      {Array.from({ length: 20 }, (_, i) => (
-        <div key={i} className="scroll-item">
-          Item vertical {i + 1}
+      {itensFiltrados.map((item, index) => (
+        <div key={index} className="scroll-item">
+          <div className="framee">
+            <img
+              className="front-view"
+              alt="Front view"
+              src={hamburge}
+            />
+            <div className="text-wrapperr">{item.nome}</div>
+            <p className="div">{item.descricao}</p>
+            <div className="text-wrapperr-2">{item.preco}</div>
+          </div>
         </div>
       ))}
     </div>
   );
 };
- */
-import React from "react";
-import "./ScrollVertical.css";
 
-interface ScrollVerticalProps {
+
+
+
+
+
+
+
+
+
+
+
+
+/* interface ScrollVerticalProps {
   itens: string[];
 }
 
@@ -31,3 +66,4 @@ export const ScrollVertical: React.FC<ScrollVerticalProps> = ({ itens }) => {
     </div>
   );
 };
+ */

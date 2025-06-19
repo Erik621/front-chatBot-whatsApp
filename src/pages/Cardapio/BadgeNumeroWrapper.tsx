@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 //import "./BadgeNumeroWrapper.css";
 
 export const BadgeNumeroWrapper = ({ className = "" }) => {

@@ -51,6 +51,7 @@
     position: relative;
     overflow-y: auto;
     scroll-snap-type: x mandatory;
+    width: 100%;
   }
   
   .categorias .frame {

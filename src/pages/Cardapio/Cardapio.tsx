@@ -1,4 +1,4 @@
-import React, { JSX,useState } from "react";
+import React, { type JSX, useState } from "react";
 import { BadgeNumeroWrapper } from "./BadgeNumeroWrapper";
 import { Categorias } from "./Categorias";
 import { Logo } from "./Logo";
@@ -13,14 +13,108 @@ export const TelaInicial = (): JSX.Element => {
 
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("Bebidas");
 
-  const itensPorCategoria: Record<string, string[]> = {
-    Bebidas: ["Coca-Cola", "Suco de Laranja", "Água", "Chá Verde"],
-    Doces: ["Brigadeiro", "Bolo", "Bala", "Chocolate"],
-    Lanches: ["Hambúrguer", "Pastel", "Pizza", "Coxinha"],
-    Higiene: ["Sabonete", "Shampoo", "Escova de dentes", "Desodorante"],
-    Limpeza: ["Detergente", "Desinfetante", "Álcool", "Esponja"],
-    Caldos: ["Caldo de frango", "Caldo de frango", "Caldo de frango", "Caldo de frango"],
-  }; 
+
+  const itens = [
+    {
+      id: 1,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 2,
+      categoria: "Doces",
+      nome: "X SALADA",
+      descricao: "Hambúrguer, alface, tomate, maionese.",
+      preco: "R$ 22,00",
+    },
+    {
+      id: 3,
+      categoria: "Lanches",
+      nome: "X BACON",
+      descricao: "Hambúrguer, bacon crocante, cheddar.",
+      preco: "R$ 25,00",
+    },
+    {
+      id: 4,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 5,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 6,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 7,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 8,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 9,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 10,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 11,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 12,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 13,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+    {
+      id: 14,
+      categoria: "Bebidas",
+      nome: "X TUDO",
+      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
+      preco: "R$ 28,00",
+    },
+
+  ];
 
   return (
     <div className="tela-inicial">
@@ -33,12 +127,19 @@ export const TelaInicial = (): JSX.Element => {
         <div className="text_special_category">Promoções:</div>
 
         <ScrollHorizontal />
-         <Categorias
-                categorias={Object.keys(itensPorCategoria)}
-                onSelecionarCategoria={setCategoriaSelecionada}
-                selecionado={categoriaSelecionada}
-              />
-              <ScrollVertical itens={itensPorCategoria[categoriaSelecionada]} />
+        <div className="conteudo">
+          <Categorias
+            itens={itens}
+            onSelecionarCategoria={setCategoriaSelecionada}
+            selecionado={categoriaSelecionada}
+          />
+          <div className="scroll-area">
+            <ScrollVertical
+              itens={itens}
+              categoriaSelecionada={categoriaSelecionada}
+            />
+          </div>
+        </div>
         <div className="menu-inferior">
           <div className="icones">
             <div className="group-2">

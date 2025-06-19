@@ -1,27 +1,75 @@
-/* .scroll-vertical {
-    height: 200px;
-    overflow-y: scroll;
-    margin: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-  }
+.scroll-vertical {
+  overflow-y: auto;
+  height: 100%;
+  background-color: #F2ECEC;
   
-  .scroll-item {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
-   */
-   .scroll-vertical {
-    height: 200px;
-    overflow-y: auto;
-    margin: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    background-color: #fff;
-  }
-  
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  padding: 16px;
+
+  max-height: 400px;  /* ou qualquer altura que você deseja */
+  padding-bottom: 60px;
+}
+
+.framee {
+  align-items: flex-start;
+  background-color: #c4bfb7;
+  border-radius: 12px;
+  box-shadow: 0px 0px 3.4px #00000040;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 6px;
+  position: relative;
+}
+
+.framee .front-view {
+  height: 191px;
+  position: relative;
+  width: 150px;
+}
+
+.framee .text-wrapperr {
+  color: #ffffff;
+  font-family: "Poppins-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  width: fit-content;
+}
+
+.framee .div {
+  color: #ffffff;
+  font-family: "Poppins-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  width: 144px;
+}
+
+.framee .text-wrapperr-2 {
+  color: #000000;
+  font-family: "Poppins-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  width: fit-content;
+}
+
+
+
+
+
+/*
   .scroll-item {
     padding: 8px;
     border-bottom: 1px solid #eee;
@@ -40,4 +88,4 @@
     padding: 8px;
     border-bottom: 1px solid #eee;
   }
-    
+     */
