@@ -6,7 +6,7 @@ interface Item {
   categoria: string;
   nome: string;
   descricao: string;
-  preco: string;
+  preco: number;
 }
 
 interface CategoriasProps {

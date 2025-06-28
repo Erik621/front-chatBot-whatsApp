@@ -1,37 +1,47 @@
 import React from "react";
 import "./ScrollVertical.css";
 //import "./style.css"; // Importa o CSS do .frame
-import hamburge from "../../assets/hamburge.svg";
 
-interface Item {
+
+export interface Item {
+  id: number;
+  categoria: string;
   nome: string;
   descricao: string;
-  preco: string;
-  categoria: string; // ADICIONADO: necessário para o filtro
+  preco: number;
+  imagem: string;
 }
 
 interface ScrollVerticalProps {
   itens: Item[];
   categoriaSelecionada: string;
+  onItemClick: (item: Item) => void; // nova prop
 }
 
-export const ScrollVertical: React.FC<ScrollVerticalProps> = ({ itens, categoriaSelecionada }) => {
+export const ScrollVertical: React.FC<ScrollVerticalProps> = ({
+  itens,
+  categoriaSelecionada,
+  onItemClick,
+}) => {
   // Filtra os itens com base na categoria selecionada
   const itensFiltrados = itens.filter(item => item.categoria === categoriaSelecionada);
 
   return (
     <div className="scroll-vertical">
       {itensFiltrados.map((item, index) => (
-        <div key={index} className="scroll-item">
+        <div key={index} className="scroll-item" onClick={() => onItemClick(item)}>
           <div className="framee">
             <img
               className="front-view"
               alt="Front view"
-              src={hamburge}
+              src={item.imagem}
             />
             <div className="text-wrapperr">{item.nome}</div>
             <p className="div">{item.descricao}</p>
-            <div className="text-wrapperr-2">{item.preco}</div>
+            <div className="text-wrapperr-2">{item.preco.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}</div>
           </div>
         </div>
       ))}
@@ -51,19 +61,3 @@ export const ScrollVertical: React.FC<ScrollVerticalProps> = ({ itens, categoria
 
 
 
-/* interface ScrollVerticalProps {
-  itens: string[];
-}
-
-export const ScrollVertical: React.FC<ScrollVerticalProps> = ({ itens }) => {
-  return (
-    <div className="scroll-vertical">
-      {itens.map((item, index) => (
-        <div key={index} className="scroll-item">
-          {item}
-        </div>
-      ))}
-    </div>
-  );
-};
- */

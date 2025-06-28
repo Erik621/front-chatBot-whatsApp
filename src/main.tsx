@@ -5,8 +5,10 @@ import React from 'react'
 import App from './App';
 import TelaInicial from './pages/Cardapio/Cardapio';
 import Home from './pages/Login'
+import PedidosRecebidos from './pages/Pedidos/PedidosRecebidos';
 
 import './index.css'
+import CadastroProdutos from './pages/Categorias/CadastroProdutos';
 
 //import Menu from './pages/Cardapio/Cardapio'
 
@@ -21,7 +23,8 @@ createRoot(rootElement).render(
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/card" element={<TelaInicial/>}/>
-        {/* <Route path="/Cardapio" element={<Menu />}/> */}
+        <Route path="/pedidos" element={<PedidosRecebidos />} />
+        <Route path="/cadastro" element={<CadastroProdutos />}/> 
       </Routes>
     </BrowserRouter>
   </StrictMode>

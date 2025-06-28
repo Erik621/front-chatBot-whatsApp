@@ -1,17 +1,11 @@
 .scroll-vertical {
-  overflow-y: auto;
-  height: 100%;
-  background-color: #F2ECEC;
-  
-
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: flex-start;
+  background-color: #F2ECEC;
   padding: 16px;
-
-  max-height: 400px;  /* ou qualquer altura que você deseja */
-  padding-bottom: 60px;
+  /* min-height: 400px; */
 }
 
 .framee {
@@ -68,24 +62,114 @@
 
 
 
+/* .frame-modal {
 
-/*
-  .scroll-item {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
-  .scroll-vertical {
-    height: 200px;
-    overflow-y: auto;
-    margin: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    background-color: #fff;
-  }
-  
-  .scroll-item {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
-     */
+  background-color: #ffffff;
+
+  border-radius: 16px;
+
+  height: 700px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  width: 360px;
+}
+
+.frame-modal .imagem-lanche {
+
+  height: 181px;
+
+  left: 11px;
+
+  object-fit: cover;
+
+  position: absolute;
+
+  top: 11px;
+
+  width: 140px;
+
+}
+
+
+
+.frame-modal.overlap {
+
+  height: 119px;
+
+  left: 168px;
+
+  position: absolute;
+
+  top: 10px;
+
+  width: 168px;
+}
+
+.frame-modal .nome-lanche {
+  color: #ed8d08;
+
+  font-family: "Poppins-Bold", Helvetica;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  left: 0;
+
+  letter-spacing: 0;
+
+  line-height: normal;
+
+  position: absolute;
+
+  top: 0;
+}
+
+.frame-modal .descri-o {
+
+  color: #575252;
+
+  font-family: "Poppins-Light", Helvetica;
+
+  font-size: 16px;
+
+  font-weight: 300;
+
+  left: 2px;
+
+  letter-spacing: 0;
+
+  line-height: normal;
+
+  position: absolute;
+
+  top: 47px;
+
+  width: 166px;
+
+}
+
+
+frame-modal.text-wrapper-14 {
+
+  color: #ed8d08;
+
+  font-family: "Poppins-Bold", Helvetica;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  left: 121px;
+
+  letter-spacing: 0;
+
+  Line-height: normal;
+
+  position: absolute;
+
+  top: 209px;
+} */

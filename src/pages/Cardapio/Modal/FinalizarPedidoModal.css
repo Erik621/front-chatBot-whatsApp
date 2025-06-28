@@ -1,0 +1,66 @@
+.finalizar-modal {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    width: 320px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ed8d08;
+    text-align: center;
+  }
+  
+  .input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #f3ebeb;
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .forma-pagamento-label {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .forma-pagamento-botoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  
+  .botao-pagamento {
+    flex: 1;
+    padding: 10px;
+    background-color: #eee;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .botao-pagamento.selecionado {
+    background-color: #ed8d08;
+    color: white;
+  }
+  
+  .botao-finalizar {
+    background-color: #22963d;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+  

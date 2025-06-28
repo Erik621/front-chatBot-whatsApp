@@ -1,0 +1,140 @@
+.frame-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  width: 360px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+}
+
+/* NOVO CONTAINER FLEX ENTRE IMAGEM E TEXTO */
+.modal-topo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+
+}
+
+.imagem-lanche {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* TEXTO DO LADO DA IMAGEM */
+.overlap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* centraliza verticalmente */
+  gap: 4px;
+}
+
+.nome-lanche {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ed8d08;
+}
+
+.descricao {
+  color: #575252;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.personalizar-titulo {
+  color: #ed8d08;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.personalizar-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.personalizar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.max-unidades {
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.item-label {
+  flex: 1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.botoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.botoes button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 16px;
+}
+
+.total .preco {
+  color: #22963d;
+}
+
+.botoes-acao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.botao-laranja {
+  background-color: #ed8d08;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mensagem-sucesso {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 12px;
+  margin-bottom: -4px;
+}
+

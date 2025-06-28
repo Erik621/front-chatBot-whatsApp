@@ -1,0 +1,86 @@
+.pedido-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    padding: 12px;
+    margin: 12px 0;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+  }
+  
+  .cabecalho {
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .pedido-id {
+    color: #333;
+  }
+  
+  .pedido-nome {
+    color: #ed8d08;
+    font-weight: bold;
+  }
+  
+  .endereco {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .itens {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  
+  .alteracoes {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+  }
+  
+  .rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .valor-total {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .preco {
+    color: #f0a400;
+  }
+  
+  .metodo-pagamento {
+    background-color: #2ecc71;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .seletor {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .itemSelect {
+    color: #000000;
+    font-family: "Poppins-SemiBold", Helvetica;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1.00px;
+    position: relative;
+    width: fit-content;
+  }
