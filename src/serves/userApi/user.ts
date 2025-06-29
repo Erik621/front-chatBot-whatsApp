@@ -1,12 +1,19 @@
 import axios from "axios";
 
-export async function login(user: string, password: string) {
+export async function login(email: string, password: string): Promise<boolean> {
+  try {
+    const response = await axios.post(`http://localhost:3000/api/users/login`, {
+      email,
+      password,
+    });
 
-    const response = await axios.post(`http://localhost:3000/api/users/login`, { user: user, password: password });
-    if (response.status) {
-        return true
+    // Exemplo: salvar o token retornado
+    const token = response.data.token;
+    localStorage.setItem('token', token);
 
-    } else {
-        return false
-    }
+    return true;
+  } catch (error) {
+    console.error("Erro ao fazer login:", error);
+    return false;
+  }
 }

@@ -1,10 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import React from 'react'
-import App from './App';
 import TelaInicial from './pages/Cardapio/Cardapio';
-import Home from './pages/Login'
+import Login from './pages/Login/login'
 import PedidosRecebidos from './pages/Pedidos/PedidosRecebidos';
 
 import './index.css'
@@ -21,7 +19,7 @@ createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Login />} />
         <Route path="/card" element={<TelaInicial/>}/>
         <Route path="/pedidos" element={<PedidosRecebidos />} />
         <Route path="/cadastro" element={<CadastroProdutos />}/> 
