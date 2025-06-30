@@ -1,5 +1,5 @@
 import './login.css'
-import { login } from '../../serves/userApi/user'
+import { login } from '../../serves/userApi/loginApi'
 import { useState } from 'react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'

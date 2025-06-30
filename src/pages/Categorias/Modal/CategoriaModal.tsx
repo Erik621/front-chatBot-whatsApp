@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 
-
 interface CategoriaModalProps {
   visivel: boolean;
   onFechar: () => void;
@@ -20,6 +19,14 @@ const CategoriaModal: React.FC<CategoriaModalProps> = ({
   useEffect(() => {
     setNome(nomeEdicao);
   }, [nomeEdicao, visivel]);
+
+  const handleSalvar = () => {
+    if (!nome.trim()) {
+      alert("Nome da categoria é obrigatório");
+      return;
+    }
+    onSalvar(nome);
+  };
 
   if (!visivel) return null;
 
@@ -42,7 +49,7 @@ const CategoriaModal: React.FC<CategoriaModalProps> = ({
           />
         </div>
         <div className="modal-botoes">
-          <button className="botao-laranja" onClick={() => onSalvar(nome)}>
+          <button className="botao-laranja" onClick={handleSalvar}>
             Salvar
           </button>
           <button className="botao-branco" onClick={onFechar}>

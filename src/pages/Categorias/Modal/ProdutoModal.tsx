@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ProdutoModal.css";
 
 export interface Produto {
+  id?: number;
   nome: string;
   descricao: string;
   imagem: string;
@@ -20,18 +21,30 @@ const ProdutoModal = ({ visivel, onFechar, onSalvar, produtoEdicao }: ProdutoMod
     nome: "",
     descricao: "",
     imagem: "",
-    valor: 0
+    valor: 0,
   });
 
   useEffect(() => {
-    if (produtoEdicao) setForm(produtoEdicao);
-  }, [produtoEdicao]);
+    if (produtoEdicao) {
+      setForm(produtoEdicao);
+    } else {
+      setForm({ nome: "", descricao: "", imagem: "", valor: 0 });
+    }
+  }, [produtoEdicao, visivel]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "valor" ? parseFloat(value) : value,
+    }));
   };
 
   const handleSalvar = () => {
+    if (!form.nome.trim()) {
+      alert("Nome do produto é obrigatório");
+      return;
+    }
     onSalvar(form);
     onFechar();
   };
@@ -43,10 +56,33 @@ const ProdutoModal = ({ visivel, onFechar, onSalvar, produtoEdicao }: ProdutoMod
       <div className="modal-conteudo">
         <h2>{produtoEdicao ? "Editar Produto" : "Novo Produto"}</h2>
 
-        <input name="nome" value={form.nome} onChange={handleChange} placeholder="Nome do produto" />
-        <input name="descricao" value={form.descricao} onChange={handleChange} placeholder="Descrição" />
-        <input name="imagem" value={form.imagem} onChange={handleChange} placeholder="URL da Imagem" />
-        <input name="valor" value={form.valor} onChange={handleChange} placeholder="Valor" type="number" />
+        <input
+          name="nome"
+          value={form.nome}
+          onChange={handleChange}
+          placeholder="Nome do produto"
+        />
+        <input
+          name="descricao"
+          value={form.descricao}
+          onChange={handleChange}
+          placeholder="Descrição"
+        />
+        <input
+          name="imagem"
+          value={form.imagem}
+          onChange={handleChange}
+          placeholder="URL da Imagem"
+        />
+        <input
+          name="valor"
+          value={form.valor}
+          onChange={handleChange}
+          placeholder="Valor"
+          type="number"
+          step="0.01"
+          min="0"
+        />
 
         <div className="botoes">
           <button onClick={onFechar}>Cancelar</button>
