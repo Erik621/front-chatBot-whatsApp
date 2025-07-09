@@ -1,0 +1,79 @@
+.editar-ingrediente-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; /* acima do backdrop do modal de ingredientes */
+  }
+  
+  .editar-ingrediente-modal {
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .editar-ingrediente-modal h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .editar-ingrediente-modal input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .botoes-modal {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .botao-laranja {
+    flex: 1;
+    background-color: #ff7a00;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-laranja:hover {
+    background-color: #e86f00;
+  }
+  
+  .botao-branco {
+    flex: 1;
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-branco:hover {
+    background-color: #e0e0e0;
+  }
+  

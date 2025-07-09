@@ -1,4 +1,4 @@
-/* Wrapper do scroll */
+
 .cards-promoes-wrapper {
   display: flex;
   overflow-x: auto;
@@ -17,7 +17,7 @@
   border-radius: 4px;
 }
 
-/* Card individual */
+
 .cards-promoes {
   flex-shrink: 0;
   scroll-snap-align: start;
@@ -33,7 +33,7 @@
   box-shadow:5px 5px 10px rgba(0,0,0,0.3);
 }
 
-/* Imagem */
+
 .cards-promoes .lentil-soup-bowl {
   height: 108px;
   width: 142px;
@@ -41,7 +41,7 @@
   border-radius: 4px;
 }
 
-/* Texto do nome */
+
 .cards-promoes .text-wrapper {
   color: #000000;
   font-family: "Poppins-Bold", Helvetica, sans-serif;
@@ -50,13 +50,11 @@
   width: fit-content;
 }
 
-/* Texto do preço */
-.cards-promoes .div {
+.cards-promoes .preco-produto {
   color: #ec8d07;
   font-family: "Poppins-Bold", Helvetica, sans-serif;
   font-size: 24px;
   font-weight: 700;
   width: fit-content;
 }
-
   

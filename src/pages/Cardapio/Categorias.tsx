@@ -1,33 +1,25 @@
 import React from "react";
 import "./Categorias.css";
 
-interface Item {
-  id: number;
-  categoria: string;
-  nome: string;
-  descricao: string;
-  preco: number;
-}
-
 interface CategoriasProps {
-  itens: Item[];
+  categorias: string[];
   selecionado: string;
   onSelecionarCategoria: (categoria: string) => void;
 }
 
 export const Categorias: React.FC<CategoriasProps> = ({
-  itens,
+  categorias,
   selecionado,
   onSelecionarCategoria,
 }) => {
-  // Extrai as categorias únicas
-  const categoriasUnicas = Array.from(
-    new Set(itens.map((item) => item.categoria))
+  // Remove "Promoções" da lista de categorias
+  const categoriasFiltradas = categorias.filter(
+    (cat) => cat.toLowerCase() !== "promoções"
   );
 
   return (
     <div className="categorias">
-      {categoriasUnicas.map((cat, index) =>
+      {categoriasFiltradas.map((cat, index) =>
         cat === selecionado ? (
           <div
             key={index}

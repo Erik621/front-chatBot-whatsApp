@@ -1,4 +1,5 @@
-import React, { type JSX, useState } from "react";
+// src/pages/TelaInicial.tsx
+import React, { useEffect, useState, type JSX } from "react";
 import { BadgeNumeroWrapper } from "./BadgeNumeroWrapper";
 import { Categorias } from "./Categorias";
 import { Logo } from "./Logo";
@@ -8,26 +9,34 @@ import botao from "../../assets/botao.svg";
 import carrinho from "../../assets/carrinho.svg";
 import casa from "../../assets/casa.svg";
 import "./style.css";
-import FrameModal from "./Modal/FrameModal";
-import PedidosModal from "./Modal/PedidosModal"; // IMPORTADO
-import hamburge from "../../assets/hamburge.svg"
-import FinalizarPedidoModal from "./Modal/FinalizarPedidoModal"; // NOVO
-
+import FrameModal, { type Pedido } from "./Modal/FrameModal";
+import PedidosModal from "./Modal/PedidosModal";
+import FinalizarPedidoModal from "./Modal/FinalizarPedidoModal";
+import { getCategorias, type Categoria, type Produto } from "../../serves/userApi/categoriaApi";
 
 export const TelaInicial = (): JSX.Element => {
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("Bebidas");
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<string>("");
   const [mostrarModal, setMostrarModal] = useState(false);
   const [itemSelecionado, setItemSelecionado] = useState<Item | null>(null);
-  const [mostrarCarrinho, setMostrarCarrinho] = useState(false); // NOVO
-  const [pedidos, setPedidos] = useState<any[]>([]); // NOVO
+  const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
+  const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [mostrarFinalizarModal, setMostrarFinalizarModal] = useState(false);
 
-
-  const adicionarAoPedido = (item: Item) => {
-    setPedidos((prev) => [...prev, item]);
-    setMostrarModal(false); // Fecha o modal
-  };
-
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const dados = await getCategorias();
+        setCategorias(dados);
+        if (dados.length > 0) {
+          setCategoriaSelecionada(dados[0].nome);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar categorias:", error);
+      }
+    };
+    fetchCategorias();
+  }, []);
 
   const abrirModal = (item: Item) => {
     setItemSelecionado(item);
@@ -39,61 +48,68 @@ export const TelaInicial = (): JSX.Element => {
     setItemSelecionado(null);
   };
 
-  const handleCarrinhoClick = () => {
-    setMostrarCarrinho(true);
-  };
-
-  const fecharCarrinho = () => {
-    setMostrarCarrinho(false);
-  };
-
+  const handleCarrinhoClick = () => setMostrarCarrinho(true);
+  const fecharCarrinho = () => setMostrarCarrinho(false);
   const abrirFinalizarPedido = () => {
+    setMostrarCarrinho(false);
     setMostrarFinalizarModal(true);
   };
 
-
-  const incrementarPedido = (id: number) => {
-    setPedidos((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, quantidade: p.quantidade + 1 } : p))
-    );
+  const adicionarAoPedido = (pedido: Pedido) => {
+    setPedidos((prev) => [...prev, pedido]);
+    setMostrarModal(false);
   };
 
-  const decrementarPedido = (id: number) => {
+  const incrementarPedido = (uuid: string) => {
     setPedidos((prev) =>
       prev.map((p) =>
-        p.id === id && p.quantidade > 1
-          ? { ...p, quantidade: p.quantidade - 1 }
-          : p
+        p.uuid === uuid ? { ...p, quantidade: p.quantidade + 1 } : p
       )
     );
   };
 
-  const itens = [
-    {
-      id: 1,
-      categoria: "Bebidas",
-      nome: "X TUDO",
-      descricao: "Hambúrguer, bacon, ovo, cheddar, tomate.",
-      preco: 28.5,
-      imagem: hamburge,
-    },
-    {
-      id: 2,
-      categoria: "Doces",
-      nome: "X SALADA",
-      descricao: "Hambúrguer, alface, tomate, maionese.",
-      preco: 27.5,
-      imagem: hamburge,
-    },
-    {
-      id: 3,
-      categoria: "Lanches",
-      nome: "X BACON",
-      descricao: "Hambúrguer, bacon crocante, cheddar.",
-      preco: 28.5,
-      imagem: hamburge,
-    },
-  ];
+  const decrementarPedido = (uuid: string, forcarRemocao = false) => {
+    setPedidos((prev) =>
+      prev
+        .map((p) => {
+          if (p.uuid === uuid) {
+            if (p.quantidade === 1 && forcarRemocao) {
+              return null; // Remove o item
+            } else if (p.quantidade > 1) {
+              return { ...p, quantidade: p.quantidade - 1 };
+            }
+          }
+          return p;
+        })
+        .filter(Boolean) as Pedido[]
+    );
+  };
+
+  const converterProdutoParaItem = (produto: Produto, categoria: string): Item => {
+    const descricaoIngredientes = produto.ingredientes?.length
+      ? produto.ingredientes.map((i) => i.nome).join(", ")
+      : "";
+
+    return {
+      id: produto.id!,
+      nome: produto.nome,
+      descricao: descricaoIngredientes,
+      preco: produto.valor,
+      categoria,
+      imagem: produto.imagem,
+      itens: produto.ingredientes,
+    };
+  };
+
+  const produtosPromocao: Item[] =
+    categorias
+      .find((cat) => cat.nome.toLowerCase() === "promoções")
+      ?.produtos.map((p) => converterProdutoParaItem(p, "Promoções")) ?? [];
+
+  const produtosFiltrados: Item[] =
+    categorias
+      .find((cat) => cat.nome === categoriaSelecionada)
+      ?.produtos.map((p) => converterProdutoParaItem(p, categoriaSelecionada)) ?? [];
 
   return (
     <div className="tela-inicial">
@@ -103,36 +119,41 @@ export const TelaInicial = (): JSX.Element => {
           <Logo className="logo-instance" />
         </div>
 
-        <div className="text_special_category">Promoções:</div>
-
-        <ScrollHorizontal onItemClick={abrirModal} />
+        {produtosPromocao.length > 0 && (
+          <>
+            <div className="text_special_category">Promoções:</div>
+            <ScrollHorizontal itens={produtosPromocao} onItemClick={abrirModal} />
+          </>
+        )}
 
         <div className="conteudo">
           <Categorias
-            itens={itens}
+            categorias={categorias.map((cat) => cat.nome)}
             onSelecionarCategoria={setCategoriaSelecionada}
             selecionado={categoriaSelecionada}
           />
+
           <div className="scroll-area">
             <ScrollVertical
-              itens={itens}
+              itens={produtosFiltrados}
               categoriaSelecionada={categoriaSelecionada}
               onItemClick={abrirModal}
             />
+
             {mostrarModal && itemSelecionado && (
               <div className="backdrop" onClick={fecharModal}>
                 <FrameModal
-
                   item={itemSelecionado}
                   onAdicionarPedido={adicionarAoPedido}
                   onFechar={fecharModal}
                   onFinalizarPedido={() => {
                     setMostrarModal(false);
                     setMostrarCarrinho(true);
-                  }}/*  */
+                  }}
                 />
               </div>
             )}
+
             {mostrarFinalizarModal && (
               <div className="backdrop" onClick={() => setMostrarFinalizarModal(false)}>
                 <FinalizarPedidoModal onClose={() => setMostrarFinalizarModal(false)} />
@@ -155,14 +176,14 @@ export const TelaInicial = (): JSX.Element => {
 
         <div className="menu-inferior">
           <div className="icones">
-            <img className="vector" alt="Vector" src={botao} />
-            <img className="vector" alt="Vector" src={casa} />
+            <img className="vector" alt="Botão" src={botao} />
+            <img className="vector" alt="Casa" src={casa} />
             <img
               className="vector-2"
               alt="Carrinho"
               src={carrinho}
               onClick={handleCarrinhoClick}
-              style={{ cursor: "pointer" }} // clique no ícone do carrinho
+              style={{ cursor: "pointer" }}
             />
             <BadgeNumeroWrapper className="badge-numero-2" />
           </div>

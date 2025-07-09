@@ -6,12 +6,20 @@ const api = axios.create({
 });
 
 // Interfaces
+export interface Ingredientes {
+  id?: number;
+  nome: string;
+  idProduto: number;
+  quantMax: number;
+  valorIngrediente: number;
+}
+
 export interface Produto {
   id?: number;
   nome: string;
-  descricao: string;
   imagem: string;
   valor: number;
+  ingredientes?: Ingredientes[];
 }
 
 export interface Categoria {
@@ -21,7 +29,7 @@ export interface Categoria {
   produtos: Produto[];
 }
 
-// Categorias
+// ===================== CATEGORIAS =====================
 export const getCategorias = async (): Promise<Categoria[]> => {
   const response = await api.get('/categorias');
   return response.data;
@@ -41,7 +49,7 @@ export const deletarCategoria = async (id: number): Promise<void> => {
   await api.delete(`/categorias/${id}`);
 };
 
-// Produtos
+// ===================== PRODUTOS =====================
 export const criarProduto = async (produto: Produto, categoriaId: number): Promise<Produto> => {
   const response = await api.post(`/categorias/${categoriaId}/produtos`, produto);
   return response.data;
@@ -55,4 +63,35 @@ export const editarProduto = async (produto: Produto, categoriaId: number): Prom
 
 export const deletarProduto = async (produtoId: number, categoriaId: number): Promise<void> => {
   await api.delete(`/categorias/${categoriaId}/produtos/${produtoId}`);
+};
+
+// ===================== INGREDIENTES (ITENS) =====================
+
+// Criar ingrediente para um produto
+export const adicionarIngrediente = async (
+  produtoId: number,
+  ingrediente: { nome: string; valorIngrediente: number; quantMax: number }
+): Promise<Ingredientes> => {
+  const response = await api.post(`/produtos/${produtoId}/ingredientes`, ingrediente);
+  return response.data;
+};
+
+// Editar ingrediente de um produto
+export const editarIngrediente = async (
+  ingredienteId: number,
+  ingredienteAtualizado: { nome: string; valorIngrediente: number; quantMax: number }
+): Promise<Ingredientes> => {
+  const response = await api.put(`/ingredientes/${ingredienteId}`, ingredienteAtualizado);
+  return response.data;
+};
+
+// Deletar ingrediente de um produto
+export const deletarIngrediente = async (ingredienteId: number): Promise<void> => {
+  await api.delete(`/ingredientes/${ingredienteId}`);
+};
+
+// Obter ingredientes de um produto (opcional)
+export const listarIngredientes = async (produtoId: number): Promise<Ingredientes[]> => {
+  const response = await api.get(`/produtos/${produtoId}/ingredientes`);
+  return response.data;
 };

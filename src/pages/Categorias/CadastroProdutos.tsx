@@ -1,9 +1,11 @@
+// src/pages/Cadastro/CadastroProdutos.tsx
 import { useState, useEffect } from "react";
 import "./CadastroProdutos.css";
 import { FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import ProdutoModal from "./Modal/ProdutoModal";
 import CategoriaModal from "./Modal/CategoriaModal";
+import IngredientesModal from "./Modal/IngredientesModal";
 import {
   getCategorias,
   criarCategoria,
@@ -14,6 +16,7 @@ import {
   deletarCategoria,
   type Categoria,
   type Produto,
+  type Ingredientes,
 } from "../../serves/userApi/categoriaApi";
 
 const CadastroProdutos = () => {
@@ -22,6 +25,10 @@ const CadastroProdutos = () => {
   const [produtoEdicao, setProdutoEdicao] = useState<Produto | null>(null);
   const [categoriaModalVisivel, setCategoriaModalVisivel] = useState(false);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<Categoria | null>(null);
+  const [ingredientesVisivel, setIngredientesVisivel] = useState(false);
+  const [ingredientesSelecionados, setIngredientesSelecionados] = useState<Ingredientes[]>([]);
+  const [nomeProdutoSelecionado, setNomeProdutoSelecionado] = useState("");
+  const [produtoSelecionadoId, setProdutoSelecionadoId] = useState<number | null>(null);
 
   useEffect(() => {
     getCategorias()
@@ -41,6 +48,27 @@ const CadastroProdutos = () => {
     setProdutoEdicao(produto);
     setCategoriaSelecionada(categoria);
     setProdutoModalVisivel(true);
+  };
+
+  const abrirIngredientesModal = (produto: Produto) => {
+    setIngredientesSelecionados(produto.ingredientes ?? []);
+    setNomeProdutoSelecionado(produto.nome);
+    setProdutoSelecionadoId(produto.id!);
+    setIngredientesVisivel(true);
+  };
+
+  const handleIngredienteAdicionado = (novo: Ingredientes) => {
+    setIngredientesSelecionados((prev) => [...prev, novo]);
+    setCategorias((prev) =>
+      prev.map((cat) => ({
+        ...cat,
+        produtos: cat.produtos.map((p) =>
+          p.id === produtoSelecionadoId
+            ? { ...p, ingredientes: [...(p.ingredientes ?? []), novo] }
+            : p
+        ),
+      }))
+    );
   };
 
   const salvarProduto = async (produto: Produto) => {
@@ -147,7 +175,12 @@ const CadastroProdutos = () => {
           <p className="produtos-label">Itens cadastrados:</p>
           {cat.produtos.map((produto) => (
             <div key={produto.id} className="produto-item">
-              <span>{produto.nome}</span>
+              <span
+                onClick={() => abrirIngredientesModal(produto)}
+                style={{ cursor: "pointer", textDecoration: "underline" }}
+              >
+                {produto.nome}
+              </span>
               <div>
                 <button onClick={() => abrirModalEditarProduto(produto, cat)}>
                   <FaPen />
@@ -178,8 +211,18 @@ const CadastroProdutos = () => {
         visivel={produtoModalVisivel}
         onFechar={() => setProdutoModalVisivel(false)}
         onSalvar={salvarProduto}
-        produtoEdicao={produtoEdicao}
       />
+
+{ingredientesVisivel && produtoSelecionadoId && (
+  <IngredientesModal
+    visivel={ingredientesVisivel}
+    onFechar={() => setIngredientesVisivel(false)}
+    ingredientes={ingredientesSelecionados}
+    nomeProduto={nomeProdutoSelecionado}
+    produtoId={produtoSelecionadoId}
+    onIngredienteAdicionado={handleIngredienteAdicionado}
+  />
+)}
     </div>
   );
 };
