@@ -1,4 +1,3 @@
-// src/pages/TelaInicial.tsx
 import React, { useEffect, useState, type JSX } from "react";
 import { BadgeNumeroWrapper } from "./BadgeNumeroWrapper";
 import { Categorias } from "./Categorias";
@@ -11,7 +10,6 @@ import casa from "../../assets/casa.svg";
 import "./style.css";
 import FrameModal, { type Pedido } from "./Modal/FrameModal";
 import PedidosModal from "./Modal/PedidosModal";
-import FinalizarPedidoModal from "./Modal/FinalizarPedidoModal";
 import { getCategorias, type Categoria, type Produto } from "../../serves/userApi/categoriaApi";
 
 export const TelaInicial = (): JSX.Element => {
@@ -21,15 +19,20 @@ export const TelaInicial = (): JSX.Element => {
   const [itemSelecionado, setItemSelecionado] = useState<Item | null>(null);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
-  const [mostrarFinalizarModal, setMostrarFinalizarModal] = useState(false);
+
+  // Estado para modal de feedback
+  const [feedback, setFeedback] = useState<{ tipo: "sucesso" | "erro"; mensagem: string } | null>(null);
 
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
         const dados = await getCategorias();
         setCategorias(dados);
-        if (dados.length > 0) {
-          setCategoriaSelecionada(dados[0].nome);
+
+        const primeiraCategoria = dados.find(cat => cat.nome.toLowerCase() !== "promoções");
+
+        if (primeiraCategoria) {
+          setCategoriaSelecionada(primeiraCategoria.nome);
         }
       } catch (error) {
         console.error("Erro ao buscar categorias:", error);
@@ -50,14 +53,10 @@ export const TelaInicial = (): JSX.Element => {
 
   const handleCarrinhoClick = () => setMostrarCarrinho(true);
   const fecharCarrinho = () => setMostrarCarrinho(false);
-  const abrirFinalizarPedido = () => {
-    setMostrarCarrinho(false);
-    setMostrarFinalizarModal(true);
-  };
 
   const adicionarAoPedido = (pedido: Pedido) => {
     setPedidos((prev) => [...prev, pedido]);
-    setMostrarModal(false);
+    // Não fecha o modal aqui — deixa o usuário decidir
   };
 
   const incrementarPedido = (uuid: string) => {
@@ -74,7 +73,7 @@ export const TelaInicial = (): JSX.Element => {
         .map((p) => {
           if (p.uuid === uuid) {
             if (p.quantidade === 1 && forcarRemocao) {
-              return null; // Remove o item
+              return null;
             } else if (p.quantidade > 1) {
               return { ...p, quantidade: p.quantidade - 1 };
             }
@@ -86,14 +85,10 @@ export const TelaInicial = (): JSX.Element => {
   };
 
   const converterProdutoParaItem = (produto: Produto, categoria: string): Item => {
-    const descricaoIngredientes = produto.ingredientes?.length
-      ? produto.ingredientes.map((i) => i.nome).join(", ")
-      : "";
-
     return {
       id: produto.id!,
       nome: produto.nome,
-      descricao: descricaoIngredientes,
+      descricao: produto.descricao,
       preco: produto.valor,
       categoria,
       imagem: produto.imagem,
@@ -108,7 +103,7 @@ export const TelaInicial = (): JSX.Element => {
 
   const produtosFiltrados: Item[] =
     categorias
-      .find((cat) => cat.nome === categoriaSelecionada)
+      .find((cat) => cat.nome.toLowerCase() === categoriaSelecionada.toLowerCase())
       ?.produtos.map((p) => converterProdutoParaItem(p, categoriaSelecionada)) ?? [];
 
   return (
@@ -134,29 +129,29 @@ export const TelaInicial = (): JSX.Element => {
           />
 
           <div className="scroll-area">
-            <ScrollVertical
-              itens={produtosFiltrados}
-              categoriaSelecionada={categoriaSelecionada}
-              onItemClick={abrirModal}
-            />
+            {categoriaSelecionada && (
+              <ScrollVertical
+                itens={produtosFiltrados}
+                categoriaSelecionada={categoriaSelecionada}
+                onItemClick={abrirModal}
+              />
+            )}
 
             {mostrarModal && itemSelecionado && (
               <div className="backdrop" onClick={fecharModal}>
                 <FrameModal
                   item={itemSelecionado}
                   onAdicionarPedido={adicionarAoPedido}
+                  onFeedback={(tipo, mensagem) => {
+                    setFeedback({ tipo, mensagem });
+                    setTimeout(() => setFeedback(null), 2000);
+                  }}
                   onFechar={fecharModal}
                   onFinalizarPedido={() => {
                     setMostrarModal(false);
                     setMostrarCarrinho(true);
                   }}
                 />
-              </div>
-            )}
-
-            {mostrarFinalizarModal && (
-              <div className="backdrop" onClick={() => setMostrarFinalizarModal(false)}>
-                <FinalizarPedidoModal onClose={() => setMostrarFinalizarModal(false)} />
               </div>
             )}
 
@@ -167,7 +162,8 @@ export const TelaInicial = (): JSX.Element => {
                   onIncrement={incrementarPedido}
                   onDecrement={decrementarPedido}
                   onFechar={fecharCarrinho}
-                  onFinalizarPedido={abrirFinalizarPedido}
+                  onFinalizarPedido={() => {}}
+                  onLimparCarrinho={() => setPedidos([])}
                 />
               </div>
             )}
@@ -176,8 +172,9 @@ export const TelaInicial = (): JSX.Element => {
 
         <div className="menu-inferior">
           <div className="icones">
-            <img className="vector" alt="Botão" src={botao} />
-            <img className="vector" alt="Casa" src={casa} />
+            {/* <img className="vector" alt="Botão" src={botao} />
+            <img className="vector" alt="Casa" src={casa} /> */}
+            <div className="icone-carrinho">
             <img
               className="vector-2"
               alt="Carrinho"
@@ -185,10 +182,21 @@ export const TelaInicial = (): JSX.Element => {
               onClick={handleCarrinhoClick}
               style={{ cursor: "pointer" }}
             />
-            <BadgeNumeroWrapper className="badge-numero-2" />
+            <BadgeNumeroWrapper className="badge-numero-2" quantidade={pedidos.length} />
+            </div>
+
           </div>
         </div>
       </div>
+
+      {/* Modal de feedback */}
+      {feedback && (
+        <div className="overlay-modal">
+          <div className={`modal-feedback ${feedback.tipo}`}>
+            {feedback.mensagem}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

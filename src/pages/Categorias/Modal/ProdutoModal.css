@@ -33,4 +33,12 @@
     justify-content: flex-end;
     gap: 8px;
   }
-  
+  .botoes button{
+    width: 80px;
+    height: 24px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }

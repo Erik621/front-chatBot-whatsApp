@@ -14,4 +14,10 @@
   .numero {
     font-weight: bold;
   }
+
+  .badge-numero-2 {
+    top: -6px;
+    right: -6px;
+  }
+  
   

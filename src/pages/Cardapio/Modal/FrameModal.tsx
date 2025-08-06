@@ -2,12 +2,14 @@ import { useState, type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./FrameModal.css";
 import { type Item } from "../ScrollVertical";
+import { baseURL } from "../../../serves/userApi/categoriaApi";
 
 interface IngredienteDetalhe {
   nome: string;
   valorIngrediente: number;
   quantMax: number;
 }
+
 export interface Pedido {
   uuid: string;
   id: number;
@@ -17,9 +19,11 @@ export interface Pedido {
   quantidade: number;
   adicionais?: IngredienteDetalhe[];
 }
+
 interface FrameModalProps {
   item: Item;
   onAdicionarPedido: (item: Pedido) => void;
+  onFeedback: (tipo: "sucesso" | "erro", mensagem: string) => void;
   onFechar: () => void;
   onFinalizarPedido: () => void;
 }
@@ -27,11 +31,10 @@ interface FrameModalProps {
 export const FrameModal = ({
   item,
   onAdicionarPedido,
+  onFeedback,
   onFechar,
   onFinalizarPedido,
 }: FrameModalProps): JSX.Element => {
-  const [mensagemSucesso, setMensagemSucesso] = useState(false);
-
   const ingredientesDetalhados: IngredienteDetalhe[] =
     (item.itens as IngredienteDetalhe[]) ?? [];
 
@@ -55,15 +58,50 @@ export const FrameModal = ({
     return Number(item.preco) + adicionais;
   };
 
+  const handleAdicionarPedido = () => {
+    try {
+      const adicionaisSelecionados = ingredientesDetalhados
+        .filter((ing) => quantidades[ing.nome] > 0)
+        .map((ing) => ({
+          nome: ing.nome,
+          quantMax: quantidades[ing.nome],
+          valorIngrediente: ing.valorIngrediente,
+        }));
+
+      onAdicionarPedido({
+        uuid: uuidv4(),
+        id: item.id,
+        nome: item.nome,
+        imagem: item.imagem,
+        preco: item.preco,
+        quantidade: 1,
+        adicionais: adicionaisSelecionados,
+      });
+
+      // Mostra feedback de sucesso
+      onFeedback("sucesso", "Pedido adicionado com sucesso!");
+    } catch {
+      // Mostra feedback de erro
+      onFeedback("erro", "Falha ao adicionar pedido. Tente novamente.");
+    }
+  };
+
   return (
     <div className="frame-modal" onClick={(e) => e.stopPropagation()}>
       <div className="modal-topo">
-        <img className="imagem-lanche" alt="Imagem lanche" src={item.imagem} />
+        {item.imagem ? (
+          <img
+            className="imagem-lanche"
+            src={`${baseURL}${item.imagem}`}
+            alt={item.nome}
+          />
+        ) : (
+          <div className="imagem-lanche">Sem imagem</div>
+        )}
+
         <div className="overlap">
           <div className="nome-lanche">{item.nome}</div>
-          <p className="descricao">
-            {ingredientesDetalhados.map((i) => i.nome).join(", ")}
-          </p>
+          <p className="descricao">{item.descricao}</p>
         </div>
       </div>
 
@@ -103,40 +141,12 @@ export const FrameModal = ({
         </span>
       </div>
 
-      {mensagemSucesso && (
-        <div className="mensagem-sucesso">Pedido adicionado com sucesso!</div>
-      )}
-
       <div className="botoes-acao">
-        <button
-          className="botao-laranja"
-          onClick={() => {
-            const adicionaisSelecionados = ingredientesDetalhados
-              .filter((ing) => quantidades[ing.nome] > 0)
-              .map((ing) => ({
-                nome: ing.nome,
-                quantMax: quantidades[ing.nome],
-                valorIngrediente: ing.valorIngrediente,
-              }));
-
-            onAdicionarPedido({
-              uuid: uuidv4(),
-              id: item.id,
-              nome: item.nome,
-              imagem: item.imagem,
-              preco: item.preco,
-              quantidade: 1,
-              adicionais: adicionaisSelecionados,
-            });
-
-            setMensagemSucesso(true);
-            setTimeout(() => setMensagemSucesso(false), 2000);
-          }}
-        >
+        <button className="botao-laranja" onClick={handleAdicionarPedido}>
           Adicionar pedido
         </button>
         <button className="botao-laranja" onClick={onFinalizarPedido}>
-          Finalizar pedido
+          Ir para Carrinho
         </button>
         <button className="botao-laranja" onClick={onFechar}>
           Continuar comprando

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./PedidosModal.css";
 import { type Pedido } from "./FrameModal";
+import FinalizarPedidoModal from "./FinalizarPedidoModal";
+import { baseURL } from "../../../serves/userApi/categoriaApi";
 
 interface PedidosModalProps {
   pedidos: Pedido[];
@@ -8,6 +10,7 @@ interface PedidosModalProps {
   onDecrement: (id: string, forcarRemocao?: boolean) => void;
   onFechar: () => void;
   onFinalizarPedido: () => void;
+  onLimparCarrinho: () => void;
 }
 
 const PedidosModal: React.FC<PedidosModalProps> = ({
@@ -15,9 +18,12 @@ const PedidosModal: React.FC<PedidosModalProps> = ({
   onIncrement,
   onDecrement,
   onFechar,
-  onFinalizarPedido,
+  onLimparCarrinho,
 }) => {
   const [confirmarRemocaoId, setConfirmarRemocaoId] = useState<string | null>(null);
+  const [mostrarFinalizarModal, setMostrarFinalizarModal] = useState(false);
+  const [observacao, setObservacoes] = useState("");
+  const [mensagemAviso, setMensagemAviso] = useState<string | null>(null);
 
   const calcularTotalPedido = (pedido: Pedido) => {
     const adicionaisTotal =
@@ -60,43 +66,56 @@ const PedidosModal: React.FC<PedidosModalProps> = ({
         <div className="titulo">Seus Pedidos</div>
 
         <div className="lista-pedidoss">
-          {pedidos.map((pedido) => (
-            <div className="pedido-item" key={pedido.uuid}>
-              <img className="img-lanche" src={pedido.imagem} alt={pedido.nome} />
-              <div className="info-pedido">
-                <span className="nome-lanche">{pedido.nome}</span>
-                {pedido.adicionais && pedido.adicionais.length > 0 && (
-                  <ul className="adicionais-lista">
-                    {pedido.adicionais.map((a, idx) => (
-                      <li key={idx} className="adicional-item">
-                        - {a.nome} x{a.quantMax} (
-                        {a.valorIngrediente.toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        })}
-                        )
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              <div className="botoes-quantidade">
-                <button onClick={() => handleClickDecrement(pedido)}>-</button>
-                <span>{pedido.quantidade}</span>
-                <button onClick={() => onIncrement(pedido.uuid)}>+</button>
-              </div>
-
-              <span className="preco">
-                {calcularTotalPedido(pedido).toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </span>
+          {pedidos.length === 0 ? (
+            <div className="mensagem-sem-pedidos">
+              Adicione um item ao carrinho para finalizar o pedido.
             </div>
-          ))}
-        </div>
+          ) : (
+            pedidos.map((pedido) => (
+              <div className="pedido-item" key={pedido.uuid}>
+                {pedido.imagem ? (
+                  <img
+                    className="img-lanche"
+                    src={`${baseURL}${pedido.imagem}`}
+                    alt={pedido.nome}
+                  />
+                ) : (
+                  <div className="img-lanche placeholder">Sem imagem</div>
+                )}
+                <div className="info-pedido">
+                  <span className="nome-lanche">{pedido.nome}</span>
+                  {pedido.adicionais && pedido.adicionais.length > 0 && (
+                    <ul className="adicionais-lista">
+                      {pedido.adicionais.map((a, idx) => (
+                        <li key={idx} className="adicional-item">
+                          - {a.nome} x{a.quantMax} (
+                          {a.valorIngrediente.toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                          )
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
+                <div className="botoes-quantidade">
+                  <button onClick={() => handleClickDecrement(pedido)}>-</button>
+                  <span>{pedido.quantidade}</span>
+                  <button onClick={() => onIncrement(pedido.uuid)}>+</button>
+                </div>
+
+                <span className="preco">
+                  {calcularTotalPedido(pedido).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
         <div className="total-final">
           <span>TOTAL:</span>
           <span className="valor-total">
@@ -107,17 +126,44 @@ const PedidosModal: React.FC<PedidosModalProps> = ({
           </span>
         </div>
 
+        <textarea
+          className="input"
+          placeholder="Alguma observação sobre o pedido?"
+          value={observacao}
+          onChange={(e) => setObservacoes(e.target.value)}
+        />
+
         <div className="botoes-acoes">
-          <button className="botao-laranja" onClick={onFinalizarPedido}>
+          <button
+            className="botao-laranja"
+            onClick={() => {
+              if (pedidos.length === 0) {
+                setMensagemAviso("Adicione um item ao carrinho para finalizar o pedido.");
+                return; // não abre o modal de finalizar
+              }
+              setMostrarFinalizarModal(true);
+            }}
+          >
             Finalizar pedido
           </button>
           <button className="botao-branco" onClick={onFechar}>
             Continuar comprando
           </button>
         </div>
+
+        {/* Modal de aviso */}
+        {mensagemAviso && (
+          <div className="aviso-modal-backdrop" onClick={() => setMensagemAviso(null)}>
+            <div className="aviso-modal" onClick={(e) => e.stopPropagation()}>
+              <p>{mensagemAviso}</p>
+              <button className="botao-laranja" onClick={() => setMensagemAviso(null)}>
+                Ok
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Modal de confirmação */}
       {confirmarRemocaoId && (
         <div className="confirmar-modal" onClick={cancelarRemocao}>
           <div className="confirmar-conteudo" onClick={(e) => e.stopPropagation()}>
@@ -126,6 +172,23 @@ const PedidosModal: React.FC<PedidosModalProps> = ({
               <button className="botao-laranja" onClick={confirmarRemocao}>Sim</button>
               <button className="botao-branco" onClick={cancelarRemocao}>Não</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarFinalizarModal && (
+        <div className="backdrop" onClick={() => setMostrarFinalizarModal(false)}>
+          <div onClick={(e) => e.stopPropagation()}>
+            <FinalizarPedidoModal
+              pedidos={pedidos}
+              observacao={observacao}
+              onClose={() => setMostrarFinalizarModal(false)}
+              onPedidoFinalizado={() => {
+                setMostrarFinalizarModal(false);
+                onLimparCarrinho();
+                onFechar();
+              }}
+            />
           </div>
         </div>
       )}

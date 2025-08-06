@@ -1,8 +1,6 @@
-// src/pages/Cadastro/CadastroProdutos.tsx
 import { useState, useEffect } from "react";
 import "./CadastroProdutos.css";
 import { FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
-import { IoIosArrowBack } from "react-icons/io";
 import ProdutoModal from "./Modal/ProdutoModal";
 import CategoriaModal from "./Modal/CategoriaModal";
 import IngredientesModal from "./Modal/IngredientesModal";
@@ -12,11 +10,10 @@ import {
   criarProduto,
   editarProduto,
   deletarProduto,
-  editarCategoria,
   deletarCategoria,
   type Categoria,
-  type Produto,
   type Ingredientes,
+  type Produto,
 } from "../../serves/userApi/categoriaApi";
 
 const CadastroProdutos = () => {
@@ -33,9 +30,7 @@ const CadastroProdutos = () => {
   useEffect(() => {
     getCategorias()
       .then(setCategorias)
-      .catch((err) => {
-        console.error("Erro ao buscar categorias", err);
-      });
+      .catch((err) => console.error("Erro ao buscar categorias", err));
   }, []);
 
   const abrirModalNovoProduto = (categoria: Categoria) => {
@@ -146,8 +141,9 @@ const CadastroProdutos = () => {
   return (
     <div className="cadastro-produtos tela-cadastro">
       <div className="top-bar">
-        <IoIosArrowBack className="voltar-icon" />
-        <h2>Cadastrar Produto</h2>
+        <div className="h2">
+          <h2>Cadastrar Produto</h2>
+        </div>
       </div>
 
       <div className="categorias-section">
@@ -167,8 +163,8 @@ const CadastroProdutos = () => {
             <span className="status">
               {cat.ativa ? "Ativa" : "Inativa"} <FaCheckCircle className="check-icon" />
             </span>
-            <button onClick={() => removerCategoria(cat)} className="botao-pequeno">
-              <FaTrash />
+            <button onClick={() => removerCategoria(cat)} className="icon-button-cat">
+              <FaTrash className="icone-categoria" />
             </button>
           </div>
 
@@ -182,11 +178,11 @@ const CadastroProdutos = () => {
                 {produto.nome}
               </span>
               <div>
-                <button onClick={() => abrirModalEditarProduto(produto, cat)}>
-                  <FaPen />
+                <button onClick={() => abrirModalEditarProduto(produto, cat)} className="icon-button">
+                  <FaPen className="icone-produto" />
                 </button>
-                <button onClick={() => removerProduto(produto, cat)}>
-                  <FaTrash />
+                <button onClick={() => removerProduto(produto, cat)} className="icon-button">
+                  <FaTrash className="icone-produto" />
                 </button>
               </div>
             </div>
@@ -211,18 +207,19 @@ const CadastroProdutos = () => {
         visivel={produtoModalVisivel}
         onFechar={() => setProdutoModalVisivel(false)}
         onSalvar={salvarProduto}
+        produtoEdicao={produtoEdicao}
       />
 
-{ingredientesVisivel && produtoSelecionadoId && (
-  <IngredientesModal
-    visivel={ingredientesVisivel}
-    onFechar={() => setIngredientesVisivel(false)}
-    ingredientes={ingredientesSelecionados}
-    nomeProduto={nomeProdutoSelecionado}
-    produtoId={produtoSelecionadoId}
-    onIngredienteAdicionado={handleIngredienteAdicionado}
-  />
-)}
+      {ingredientesVisivel && produtoSelecionadoId && (
+        <IngredientesModal
+          visivel={ingredientesVisivel}
+          onFechar={() => setIngredientesVisivel(false)}
+          ingredientes={ingredientesSelecionados}
+          nomeProduto={nomeProdutoSelecionado}
+          produtoId={produtoSelecionadoId}
+          onIngredienteAdicionado={handleIngredienteAdicionado}
+        />
+      )}
     </div>
   );
 };

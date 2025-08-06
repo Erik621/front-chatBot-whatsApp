@@ -2,6 +2,8 @@
 import React from "react";
 import "./ScrollVertical.css";
 import "./style.css";
+import { baseURL } from "../../serves/userApi/categoriaApi";
+
 export interface Item {
   id: number;
   nome: string;
@@ -24,19 +26,23 @@ interface ScrollVerticalProps {
 
 export const ScrollVertical: React.FC<ScrollVerticalProps> = ({
   itens,
-  categoriaSelecionada,
   onItemClick,
 }) => {
-  const itensFiltrados = itens.filter(
-    (item) => item.categoria.toLowerCase() === categoriaSelecionada.toLowerCase()
-  );
-
   return (
     <div className="scroll-vertical">
-      {itensFiltrados.map((item) => (
+      {itens.map((item) => (
         <div key={item.id} className="scroll-item" onClick={() => onItemClick(item)}>
           <div className="framee">
-            <img className="front-view" alt={item.nome} src={item.imagem} />
+            {item.imagem ? (
+              <img
+                className="front-view"
+                src={`${baseURL}${item.imagem}`}
+                alt={item.nome}
+              />
+            ) : (
+              <div className="front-view">Sem imagem</div>
+            )}
+
             <div className="text-wrapperr">{item.nome}</div>
             <p className="div">{item.descricao}</p>
             <div className="text-wrapperr-2">
