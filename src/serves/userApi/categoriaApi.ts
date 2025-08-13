@@ -3,10 +3,10 @@ import axios from 'axios';
 import { io } from "socket.io-client";
 
 const api = axios.create({
-  baseURL: 'http://192.168.11.6:3000/api', // Ajuste conforme o ambiente
+  baseURL: 'http://177.153.59.195/:3000/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://192.168.11.6:3000'
+export const baseURL = 'http://177.153.59.195/:3000'
 // Interfaces
 export interface Ingredientes {
   id?: number;
