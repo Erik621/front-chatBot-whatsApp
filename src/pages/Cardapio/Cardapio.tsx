@@ -114,21 +114,26 @@ export const TelaInicial = (): JSX.Element => {
           <Logo className="logo-instance" />
         </div>
 
+        <div className="header-spacer" />
+
         {produtosPromocao.length > 0 && (
-          <>
+          <section className="promo">
             <div className="text_special_category">Promoções:</div>
             <ScrollHorizontal itens={produtosPromocao} onItemClick={abrirModal} />
-          </>
+          </section>
         )}
 
         <div className="conteudo">
+        <div className="scroll-area">
+
+        <div className="categorias-wrapper">
           <Categorias
             categorias={categorias.map((cat) => cat.nome)}
             onSelecionarCategoria={setCategoriaSelecionada}
             selecionado={categoriaSelecionada}
           />
-
-          <div className="scroll-area">
+        </div>
+          
             {categoriaSelecionada && (
               <ScrollVertical
                 itens={produtosFiltrados}

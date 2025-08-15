@@ -47,30 +47,41 @@
   font-family: "Inter-Bold", Helvetica;
   white-space: nowrap;
   text-align: left;
-  margin-top: 10vh;
-  margin-bottom: 0.7vh;
-  padding-left: 1rem;
+  margin: 0;               /* <— zera o margin-top antigo */
+  padding: 0.6rem 1rem 0;  /* espaçamento controlado */
   font-size: 2.5vh;
   font-weight: 600;
 }
-
+.categorias-wrapper {
+  position: sticky;
+  top: 0;                  /* topo da scroll-area (que já está logo abaixo do que vier antes) */
+  z-index: 999;            /* abaixo da top_bar (1000) e acima da lista */
+  background: #fff;        /* evita “vazar” conteúdo por baixo ao rolar */
+}
 .conteudo {
- 
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-top: 1vh;
-  padding-top: 1vh;
-  padding-bottom: 60px; /* espaço para o menu inferior */
+  padding: 0;              /* <— tira padding-top/margins que criavam “vazio” */
   overflow: hidden;
+    padding-bottom: 60px; /* espaço para o menu inferior */
 }
 
 .scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 60px; /* Garante espaço extra para o menu-inferior */
+  padding-bottom: 100px; /* Garante espaço extra para o menu-inferior */
+  overflow: hidden;
+}
+.header-spacer {
+  height: 9vh;
+  flex: 0 0 auto;
 }
 
+.promo {
+  margin: 0;
+  padding: 0;              /* ajuste fino: pode colocar padding-bottom pequeno se quiser */
+}
 
 
 
