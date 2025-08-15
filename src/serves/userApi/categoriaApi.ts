@@ -3,10 +3,10 @@ import axios from 'axios';
 import { io } from "socket.io-client";
 
 const api = axios.create({
-  baseURL: 'http://177.153.59.195/:3000/api', // Ajuste conforme o ambiente
+  baseURL: '/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://177.153.59.195/:3000'
+export const baseURL = window.location.origin; // https://empireofk.com.br
 // Interfaces
 export interface Ingredientes {
   id?: number;
@@ -55,9 +55,9 @@ export interface PedidoPayload {
     telefone: string;
   };
   itens: PedidoItem[];
-  
-    formaPagamento: string;
-  
+
+  formaPagamento: string;
+
 }
 
 export interface PedidoRetorno {

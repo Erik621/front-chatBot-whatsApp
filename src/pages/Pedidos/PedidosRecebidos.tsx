@@ -7,8 +7,6 @@ import {
   socket
 } from "../../serves/userApi/categoriaApi";
 
-import { io } from "socket.io-client";
-
 
 interface PedidoRecebido {
   id: number;
@@ -87,15 +85,14 @@ const PedidosRecebidos = () => {
   const handleMarcarComoPronto = async (id: number) => {
     try {
       const finalizado = new Date().toISOString();
-      console.log(finalizado)
 
-      console.log(await marcarPedidoComoPronto(id))
+      await marcarPedidoComoPronto(id)
       setPedidos((prev) =>
         prev.map((p) =>
           p.id === id ? { ...p, finalizadoEm: finalizado } : p
         )
       );
-      console.log(pedidos)
+      
     } catch (err) {
       console.error("Erro ao marcar como pronto:", err);
     }
