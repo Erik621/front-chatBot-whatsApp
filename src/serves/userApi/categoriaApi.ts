@@ -3,12 +3,10 @@ import axios from 'axios';
 import { io } from "socket.io-client";
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api', // Ajuste conforme o ambiente
+  baseURL: '/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://localhost:3000'
-
-
+export const baseURL = window.location.origin; 
 /* const api = axios.create({
   baseURL: 'http://localhost:3000/api', // Ajuste conforme o ambiente
 });
