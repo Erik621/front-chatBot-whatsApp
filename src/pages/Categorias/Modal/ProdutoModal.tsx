@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../serves/userApi/categoriaApi";
+import api,{baseURL} from "../../../serves/userApi/categoriaApi";
 import "./ProdutoModal.css";
 
 export interface Produto {
@@ -108,7 +108,7 @@ const ProdutoModal = ({ visivel, onFechar, onSalvar, produtoEdicao }: ProdutoMod
           <div>
             <p>Imagem Atual:</p>
             <img
-              src={`http://localhost:3000${form.imagem}`}
+              src={`${baseURL}${form.imagem}`}
               alt="Imagem atual"
               style={{ width: '100px', height: '100px', objectFit: 'cover' }}
             />
