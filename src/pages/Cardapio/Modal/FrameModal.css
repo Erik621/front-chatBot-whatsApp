@@ -29,8 +29,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* centraliza verticalmente */
+  justify-content: flex-start;
   gap: 4px;
+  min-width: 0; /* evita estouro de texto */
 }
 
 /* Fundo escuro atrás do feedback */
@@ -92,6 +93,10 @@
   color: #575252;
   font-size: 14px;
   font-weight: 300;
+  max-height: 80px;       /* limita altura dentro do modal */
+  overflow-y: auto;       /* cria rolagem se ultrapassar */
+  word-break: break-word; /* quebra linhas longas */
+  padding-right: 4px;     /* espaço p/ barra de rolagem */
 }
 
 .personalizar-titulo {
