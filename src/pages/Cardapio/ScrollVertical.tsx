@@ -42,7 +42,7 @@ export const ScrollVertical: React.FC<ScrollVerticalProps> = ({
             ) : (
               <div className="front-view">Sem imagem</div>
             )}
-
+          <div className="content">
             <div className="text-wrapperr">{item.nome}</div>
             <p className="div">{item.descricao}</p>
             <div className="text-wrapperr-2">
@@ -50,6 +50,7 @@ export const ScrollVertical: React.FC<ScrollVerticalProps> = ({
                 style: "currency",
                 currency: "BRL",
               })}
+              </div>
             </div>
           </div>
         </div>
