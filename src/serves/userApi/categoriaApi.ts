@@ -3,10 +3,10 @@ import axios from 'axios';
 import { io } from "socket.io-client";
 
 const api = axios.create({
-  baseURL: 'http://empireofk.com.br:3000/api', // Ajuste conforme o ambiente
+  baseURL: 'https://empireofk.com.br/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://empireofk.com.br:3000/api' 
+export const baseURL = 'https://empireofk.com.br/api' 
 /* const api = axios.create({
   baseURL: 'http://localhost:3000/api', // Ajuste conforme o ambiente
 });
