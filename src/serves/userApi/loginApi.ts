@@ -1,8 +1,10 @@
 import axios from "axios";
+import api from "./categoriaApi";
+
 
 export async function login(email: string, password: string): Promise<boolean> {
   try {
-    const response = await axios.post(`http://localhost:3000/api/login`, {
+    const response = await api.post(`/login`, {
       email,
       password,
     });
