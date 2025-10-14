@@ -1,5 +1,6 @@
 // src/pages/AuthPage.tsx
 import React, { useState } from 'react';
+import { baseURL } from '../serves/userApi/categoriaApi';
 
 export const AuthPage = () => {
   const [email, setEmail] = useState('');
@@ -10,9 +11,9 @@ export const AuthPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const endpoint = isLogin ? '/login' : '/register';
+  const endpoint = isLogin ? `${baseURL}/login` : `${baseURL}/register`;
 
-    try {
+  try {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
