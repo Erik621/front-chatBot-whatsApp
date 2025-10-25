@@ -1,24 +1,13 @@
 .scroll-vertical {
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scroll no iOS */
+  height: 100%;
   background-color: #F2ECEC;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: flex-start;
   padding: 16px;
-
-  /* usa a variável dinâmica --vh (definida pelo JS) como fallback para altura real da viewport */
-  /* subtrai altura do topo (9vh) e do menu inferior (60px) — ajuste esses valores se seu top/menu tiver outras medidas */
-  max-height: calc( (var(--vh, 1vh) * 100) - 9vh - 60px );
-
-  /* garante que o último item pode rolar acima do menu */
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
-  box-sizing: border-box;
-
-  /* quando rolar para um elemento no final, o espaço aplicado evita corte */
-  scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
-  touch-action: pan-y;
+  max-height: calc(100vh - 9vh - 60px);
 }
 
 .framee {
@@ -27,16 +16,13 @@
   justify-content: flex-start;
   align-items: flex-start;
 
-  width: 160px;    
-  height: 280px;   /* altura fixa para cards uniformes */
+  width: 160px;    /* largura fixa */
+  height: 280px;   /* 🔑 altura fixa para todos ficarem iguais */
   background-color: #c4bfb7;
   border-radius: 12px;
   box-shadow: 0px 0px 3.4px #00000040;
   padding: 6px;
   overflow: hidden;
-
-  margin-bottom: 0;
-  box-sizing: border-box;
 }
 
 .framee .content {
@@ -66,7 +52,7 @@
   margin-bottom: 4px;
 
   display: -webkit-box;
-  -webkit-line-clamp: 2; 
+  -webkit-line-clamp: 2; /* até 2 linhas */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,7 +67,7 @@
   margin-bottom: auto;
 
   display: -webkit-box;
-  -webkit-line-clamp: 3; 
+  -webkit-line-clamp: 3; /* até 3 linhas */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

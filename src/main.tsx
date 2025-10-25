@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import TelaInicial from './pages/Cardapio/Cardapio';
@@ -7,36 +7,7 @@ import PedidosRecebidos from './pages/Pedidos/PedidosRecebidos';
 import CadastroProdutos from './pages/Categorias/CadastroProdutos';
 import ProtectedRoute from './components/ProtectedRoute'
 import './index.css'
-
-function useRealVh() {
-  useEffect(() => {
-    function setVh() {
-      // 1vh real = 1% da altura real da tela
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    }
-
-    setVh(); // define assim que carrega
-    window.addEventListener('resize', setVh); // atualiza se mudar tamanho
-    window.addEventListener('orientationchange', setVh); // atualiza ao girar
-
-    return () => {
-      window.removeEventListener('resize', setVh);
-      window.removeEventListener('orientationchange', setVh);
-    };
-  }, []);
-}
-
-function App() {
-  useRealVh(); // chama o hook aqui
-  return (
-    <Routes>
-      <Route path="/home" element={<Login />} />
-      <Route path="/card" element={<TelaInicial />} />
-      <Route path="/pedidos" element={<ProtectedRoute element={<PedidosRecebidos />} />} />
-      <Route path="/cadastro" element={<ProtectedRoute element={<CadastroProdutos />} />} />
-    </Routes>
-  );
-}
+//import Menu from './pages/Cardapio/Cardapio'
 
 // Garante que o elemento existe antes de passar pro createRoot
 const rootElement = document.getElementById('root')
