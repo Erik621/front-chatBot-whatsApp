@@ -50,10 +50,28 @@ const FinalizarPedidoModal: React.FC<FinalizarPedidoModalProps> = ({
       alert("Pedido realizado com sucesso!");
       onPedidoFinalizado();
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao enviar pedido:", error);
-      alert("Erro ao enviar pedido. Tente novamente.");
+
+      const mensagemBackend =
+        error?.response?.data?.message ||
+        error?.message ||
+        null;
+
+      if (
+        mensagemBackend &&
+        mensagemBackend.toLowerCase().includes('fechado')
+      ) {
+        alert(
+          `❌ Estamos fechados no momento.\n` +
+          `🕒 Funcionamos de terça a domingo, das 18h às 23h30.\n` +
+          `📲 Você pode conferir nosso cardápio enquanto isso.`
+        );
+      } else {
+        alert("❌ Erro ao enviar pedido. Tente novamente.");
+      }
     }
+
   };
 
   return (
