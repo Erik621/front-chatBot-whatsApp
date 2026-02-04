@@ -64,7 +64,7 @@ const FinalizarPedidoModal: React.FC<FinalizarPedidoModalProps> = ({
       ) {
         alert(
           `❌ Estamos fechados no momento.\n` +
-          `🕒 Funcionamos de terça a domingo, das 18h às 23h30.\n` +
+          `🕒 Funcionamos de terça a domingo, das 14h às 22h.\n` +
           `📲 Você pode conferir nosso cardápio enquanto isso.`
         );
       } else {

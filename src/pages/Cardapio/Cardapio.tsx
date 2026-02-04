@@ -1,16 +1,14 @@
-import React, { useEffect, useState, type JSX } from "react";
+import  { useEffect, useState, type JSX } from "react";
 import { BadgeNumeroWrapper } from "./BadgeNumeroWrapper";
 import { Categorias } from "./Categorias";
 import { Logo } from "./Logo";
 import { ScrollHorizontal } from "./ScrollHorizontal";
 import { ScrollVertical, type Item } from "./ScrollVertical";
-import botao from "../../assets/botao.svg";
 import carrinho from "../../assets/carrinho.svg";
-import casa from "../../assets/casa.svg";
 import "./style.css";
 import FrameModal, { type Pedido } from "./Modal/FrameModal";
 import PedidosModal from "./Modal/PedidosModal";
-import { getCategorias, type Categoria, type Produto } from "../../serves/userApi/categoriaApi";
+import { getCardapio, type Categoria, type Produto } from "../../serves/userApi/categoriaApi";
 
 export const TelaInicial = (): JSX.Element => {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
@@ -26,7 +24,7 @@ export const TelaInicial = (): JSX.Element => {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const dados = await getCategorias();
+        const dados = await getCardapio();
         setCategorias(dados);
 
         const primeiraCategoria = dados.find(cat => cat.nome.toLowerCase() !== "promoções");

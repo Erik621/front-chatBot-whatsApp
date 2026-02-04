@@ -1,17 +1,17 @@
-// src/serves/categoriaApi.ts
+// src/serves/userApi/categoriaApi.ts
 import axios from 'axios';
 import { io } from "socket.io-client";
 
-const api = axios.create({
+/* const api = axios.create({
   baseURL: 'https://empireofk.com.br/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'https://empireofk.com.br/api' 
-/* const api = axios.create({
+export const baseURL = 'https://empireofk.com.br/api'  */
+const api = axios.create({
   baseURL: 'http://localhost:3000/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://localhost:3000/api' */
+export const baseURL = 'http://localhost:3000/api'
 // Interfaces
 export interface Ingredientes {
   id?: number;
@@ -26,6 +26,7 @@ export interface Produto {
   nome: string;
   imagem: string;
   valor: number;
+  ativo: boolean;
   descricao: string;
   ingredientes?: Ingredientes[];
 }
@@ -60,9 +61,9 @@ export interface PedidoPayload {
     telefone: string;
   };
   itens: PedidoItem[];
-  
-    formaPagamento: string;
-  
+
+  formaPagamento: string;
+
 }
 
 export interface PedidoRetorno {
@@ -89,14 +90,24 @@ export const getCategorias = async (): Promise<Categoria[]> => {
   return response.data;
 };
 
+export const getCardapio = async (): Promise<Categoria[]> => {
+  const res = await api.get("/cardapio");
+  return res.data;
+};
+
+export const atualizarStatusProduto = async ( produtoId: number, ativo: boolean): Promise<Produto> => {
+  const res = await api.patch(`/produtos/${produtoId}/status`, { ativo });
+  return res.data;
+};
+
 export const criarCategoria = async (nome: string): Promise<Categoria> => {
   const response = await api.post('/categorias', { nome });
   return response.data;
 };
 
 export const editarCategoria = async (id: number, nome: string, ativa: boolean): Promise<Categoria> => {
-  const response = await api.put(`/categorias/${id}`, { nome, ativa });
-  return response.data;
+  const res = await api.put(`/categorias/${id}`, { nome, ativa, });
+  return res.data;
 };
 
 export const deletarCategoria = async (id: number): Promise<void> => {

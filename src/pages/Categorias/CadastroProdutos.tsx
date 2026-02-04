@@ -1,3 +1,4 @@
+//src/pages/Categorias/CadastroProdutos.tsx
 import { useState, useEffect } from "react";
 import "./CadastroProdutos.css";
 import { FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
@@ -14,6 +15,9 @@ import {
   type Categoria,
   type Ingredientes,
   type Produto,
+  editarCategoria,
+  atualizarStatusProduto,
+  getCardapio,
 } from "../../serves/userApi/categoriaApi";
 
 const CadastroProdutos = () => {
@@ -66,6 +70,37 @@ const CadastroProdutos = () => {
     );
   };
 
+  const alterarStatusCategoria = async (categoria: Categoria) => {
+    const atualizada = await editarCategoria(
+      categoria.id!,
+      categoria.nome,
+      !categoria.ativa
+    );
+
+    setCategorias(prev =>
+      prev.map(c =>
+        c.id === categoria.id ? atualizada : c
+      )
+    );
+  };
+
+  const alterarStatusProduto = async (produto: Produto) => {
+    const atualizado = await atualizarStatusProduto(
+      produto.id!,
+      !produto.ativo
+    );
+
+    setCategorias(prev =>
+      prev.map(cat => ({
+        ...cat,
+        produtos: cat.produtos.map(p =>
+          p.id === produto.id ? atualizado : p
+        ),
+      }))
+    );
+  };
+
+
   const salvarProduto = async (produto: Produto) => {
     if (!categoriaSelecionada) return;
     try {
@@ -75,11 +110,11 @@ const CadastroProdutos = () => {
           prev.map((cat) =>
             cat.id === categoriaSelecionada.id
               ? {
-                  ...cat,
-                  produtos: cat.produtos.map((p) =>
-                    p.id === produtoEdicao.id ? atualizado : p
-                  ),
-                }
+                ...cat,
+                produtos: cat.produtos.map((p) =>
+                  p.id === produtoEdicao.id ? atualizado : p
+                ),
+              }
               : cat
           )
         );
@@ -117,9 +152,9 @@ const CadastroProdutos = () => {
         prev.map((cat) =>
           cat.id === categoria.id
             ? {
-                ...cat,
-                produtos: cat.produtos.filter((p) => p.id !== produto.id),
-              }
+              ...cat,
+              produtos: cat.produtos.filter((p) => p.id !== produto.id),
+            }
             : cat
         )
       );
@@ -160,16 +195,19 @@ const CadastroProdutos = () => {
         <div key={cat.id} className="categoria">
           <div className="categoria-header">
             <h3 className="categoria-titulo laranja">{cat.nome}:</h3>
-            <span className="status">
-              {cat.ativa ? "Ativa" : "Inativa"} <FaCheckCircle className="check-icon" />
-            </span>
+            <button
+              className={`btn-status ${cat.ativa ? "ativo" : "inativo"}`}
+              onClick={() => alterarStatusCategoria(cat)}
+            >
+              {cat.ativa ? "Ativa" : "Inativa"}
+            </button>
             <button onClick={() => removerCategoria(cat)} className="icon-button-cat">
               <FaTrash className="icone-categoria" />
             </button>
           </div>
 
           <p className="produtos-label">Itens cadastrados:</p>
-          {cat.produtos.map((produto) => (
+          {cat.produtos?.map((produto) => (
             <div key={produto.id} className="produto-item">
               <span
                 onClick={() => abrirIngredientesModal(produto)}

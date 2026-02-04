@@ -1,3 +1,4 @@
+/*src/pages/Categorias/CadastroProdutos.css*/
 .cadastro-produtos {
     font-family: "Poppins", sans-serif;
     padding: 16px;
@@ -233,3 +234,30 @@
   .icon-button-cat:hover .icone-categoria {
     color: #c96b00; /* um tom mais escuro ao passar o mouse */
   }
+
+  .btn-status {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  min-width: 80px;
+  text-align: center;
+}
+
+.btn-status.ativo {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-status.inativo {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-status:hover {
+  opacity: 0.85;
+  transform: scale(1.03);
+}

@@ -1,14 +1,8 @@
+// src/pages/Categorias/Modal/ProdutoModal.tsx
 import React, { useState, useEffect } from "react";
-import api,{baseURL} from "../../../serves/userApi/categoriaApi";
+import api, { baseURL, type Produto } from "../../../serves/userApi/categoriaApi";
 import "./ProdutoModal.css";
 
-export interface Produto {
-  id?: number;
-  nome: string;
-  imagem: string;
-  valor: number;
-  descricao: string;
-}
 
 interface ProdutoModalProps {
   visivel: boolean;
@@ -23,15 +17,25 @@ const ProdutoModal = ({ visivel, onFechar, onSalvar, produtoEdicao }: ProdutoMod
     imagem: "",
     valor: 0,
     descricao: "",
+    ativo: true,
   });
 
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (produtoEdicao) {
-      setForm(produtoEdicao);
+      setForm({
+        ...produtoEdicao,
+        ativo: produtoEdicao.ativo ?? true,
+      });
     } else {
-      setForm({ nome: "", imagem: "", valor: 0, descricao: "" });
+      setForm({
+        nome: "",
+        imagem: "",
+        valor: 0,
+        descricao: "",
+        ativo: true,
+      });
     }
     setFile(null);
   }, [produtoEdicao, visivel]);
@@ -132,6 +136,24 @@ const ProdutoModal = ({ visivel, onFechar, onSalvar, produtoEdicao }: ProdutoMod
           min="0"
         />
 
+        <div className="switch-container">
+          <span>Status do produto</span>
+
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={form.ativo}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, ativo: e.target.checked }))
+              }
+            />
+            <span className="slider"></span>
+          </label>
+
+          <span className={`status-text ${form.ativo ? "on" : "off"}`}>
+            {form.ativo ? "Ativo" : "Inativo"}
+          </span>
+        </div>
         <div className="botoes">
           <button onClick={onFechar}>Cancelar</button>
           <button onClick={handleSalvar}>Salvar</button>

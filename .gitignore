@@ -1,5 +1,6 @@
 # Logs
 deploy/nginx/site.conf
+site.conf
 logs
 *.log
 npm-debug.log*
