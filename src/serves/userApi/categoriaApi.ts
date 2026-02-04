@@ -2,16 +2,16 @@
 import axios from 'axios';
 import { io } from "socket.io-client";
 
-/* const api = axios.create({
+const api = axios.create({
   baseURL: 'https://empireofk.com.br/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'https://empireofk.com.br/api'  */
-const api = axios.create({
+export const baseURL = 'https://empireofk.com.br/api' 
+/* const api = axios.create({
   baseURL: 'http://localhost:3000/api', // Ajuste conforme o ambiente
 });
 
-export const baseURL = 'http://localhost:3000/api'
+export const baseURL = 'http://localhost:3000/api' */
 // Interfaces
 export interface Ingredientes {
   id?: number;
